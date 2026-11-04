@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#174f52">
+    <title>{% block title %}CarePlus Hospital{% endblock %}</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            background: #f8faf8;
+            color: #19383a;
+            font-family: 'Avenir Next', Avenir, 'Segoe UI', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .auth-shell {
+            display: grid;
+            min-height: 100vh;
+            grid-template-columns: minmax(320px, 0.88fr) minmax(440px, 1.12fr);
+        }
+
+        .auth-story {
+            position: relative;
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+            overflow: hidden;
+            padding: 38px clamp(30px, 5vw, 76px);
+            background: #174f52;
+            color: #f5f8f3;
+        }
+
+        .auth-story::before {
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+            background-size: 44px 44px;
+            content: '';
+            mask-image: linear-gradient(to bottom, black, transparent 78%);
+            pointer-events: none;
+        }
+
+        .auth-story::after {
+            position: absolute;
+            right: 9%;
+            bottom: 14%;
+            width: 120px;
+            height: 120px;
+            border: 1px solid rgba(238, 184, 154, 0.55);
+            content: '';
+            transform: rotate(45deg);
+            pointer-events: none;
+        }
+
+        .auth-brand,
+        .auth-story-content,
+        .auth-story-foot {
+            position: relative;
+            z-index: 1;
+        }
+
+        .auth-brand {
+            display: inline-flex;
+            width: fit-content;
+            align-items: center;
+            gap: 11px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .auth-brand-mark {
+            position: relative;
+            display: grid;
+            width: 34px;
+            height: 34px;
+            place-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            border-radius: 10px;
+            color: #f0b69b;
+            font-size: 24px;
+            font-weight: 400;
+            line-height: 1;
+        }
+
+        .auth-story-content {
+            width: min(100%, 470px);
+            margin: auto 0;
+            padding: 70px 0 90px;
+        }
+
+        .auth-story-kicker {
+            margin: 0 0 18px;
+            color: #f0b69b;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.6px;
+            text-transform: uppercase;
+        }
+
+        .auth-story h1 {
+            max-width: 470px;
+            margin: 0;
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: clamp(38px, 4.2vw, 58px);
+            font-weight: 400;
+            line-height: 1.08;
+        }
+
+        .auth-story-copy {
+            max-width: 380px;
+            margin: 20px 0 0;
+            color: #d2e3dc;
+            font-size: 15px;
+            line-height: 1.75;
+        }
+
+        .auth-story-rule {
+            width: 54px;
+            height: 3px;
+            margin: 35px 0 22px;
+            background: #e6a889;
+        }
+
+        .auth-story-note {
+            max-width: 340px;
+            margin: 0;
+            color: #e5efea;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .auth-story-foot {
+            color: #bad0c9;
+            font-size: 12px;
+        }
+
+        .auth-main {
+            display: flex;
+            min-width: 0;
+            flex-direction: column;
+            padding: 30px clamp(24px, 5vw, 76px);
+        }
+
+        .auth-topline {
+            display: flex;
+            justify-content: flex-end;
+            color: #657878;
+            font-size: 13px;
+        }
+
+        .auth-topline a,
+        .auth-switch a {
+            color: #176b67;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .auth-topline a {
+            margin-left: 4px;
+        }
+
+        .auth-topline a:hover,
+        .auth-switch a:hover {
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .auth-content {
+            width: min(100%, 440px);
+            margin: auto;
+            padding: 45px 0;
+        }
+
+        .auth-eyebrow {
+            margin: 0 0 10px;
+            color: #bc785c;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .auth-content h2 {
+            margin: 0;
+            color: #19383a;
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 36px;
+            font-weight: 400;
+            line-height: 1.2;
+        }
+
+        .auth-subtitle {
+            margin: 10px 0 28px;
+            color: #6e7e7d;
+            font-size: 14px;
+            line-height: 1.65;
+        }
+
+        .auth-form p {
+            margin: 0 0 17px;
+        }
+
+        .auth-form p:empty {
+            display: none;
+        }
+
+        .auth-form label {
+            display: block;
+            margin-bottom: 7px;
+            color: #365153;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .auth-form input {
+            display: block;
+            width: 100%;
+            min-height: 47px;
+            padding: 11px 13px;
+            border: 1px solid #d3dfda;
+            border-radius: 5px;
+            background: #fff;
+            color: #19383a;
+            font: inherit;
+            font-size: 14px;
+            transition: border-color 150ms ease, box-shadow 150ms ease;
+        }
+
+        .auth-form input:focus {
+            border-color: #176b67;
+            box-shadow: 0 0 0 3px rgba(23, 107, 103, 0.12);
+            outline: none;
+        }
+
+        .auth-form .helptext {
+            display: block;
+            margin-top: 7px;
+            color: #788784;
+            font-size: 11px;
+            line-height: 1.55;
+        }
+
+        .auth-form ul {
+            margin: 7px 0 0;
+            padding-left: 18px;
+            color: #788784;
+            font-size: 11px;
+            line-height: 1.55;
+        }
+
+        .auth-form .errorlist {
+            margin: 0 0 7px;
+            padding: 0;
+            color: #a4473f;
+            font-size: 12px;
+            list-style: none;
+        }
+
+        .auth-form > button {
+            display: flex;
+            width: 100%;
+            min-height: 49px;
+            align-items: center;
+            justify-content: center;
+            margin-top: 8px;
+            border: 0;
+            border-radius: 5px;
+            background: #176b67;
+            color: #fff;
+            cursor: pointer;
+            font: inherit;
+            font-size: 14px;
+            font-weight: 700;
+            transition: background 150ms ease, transform 150ms ease;
+        }
+
+        .auth-form > button:hover {
+            background: #105552;
+            transform: translateY(-1px);
+        }
+
+        .auth-switch {
+            margin: 23px 0 0;
+            color: #6e7e7d;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .auth-bottomline {
+            display: flex;
+            justify-content: center;
+            padding-top: 18px;
+            border-top: 1px solid #e6ece8;
+            color: #82908d;
+            font-size: 11px;
+        }
+
+        @media (max-width: 760px) {
+            .auth-shell {
+                grid-template-columns: 1fr;
+            }
+
+            .auth-story {
+                min-height: auto;
+                padding: 22px 25px 27px;
+            }
+
+            .auth-story-content {
+                padding: 35px 0 12px;
+            }
+
+            .auth-story h1 {
+                max-width: 550px;
+                font-size: 38px;
+            }
+
+            .auth-story-copy {
+                margin-top: 10px;
+                font-size: 13px;
+            }
+
+            .auth-story-rule,
+            .auth-story-note,
+            .auth-story-foot {
+                display: none;
+            }
+
+            .auth-main {
+                min-height: 60vh;
+                padding: 20px 25px 24px;
+            }
+
+            .auth-content {
+                padding: 38px 0;
+            }
+
+            .auth-topline {
+                display: none;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .auth-story h1 {
+                font-size: 32px;
+            }
+
+            .auth-content h2 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-shell">
+        <aside class="auth-story">
+            <a class="auth-brand" href="{% url 'index' %}">
+                <span class="auth-brand-mark" aria-hidden="true">+</span>
+                <span>CarePlus Hospital</span>
+            </a>
+            <div class="auth-story-content">
+                <p class="auth-story-kicker">Your health, in good hands</p>
+                <h1>Care that sees the whole you.</h1>
+                <p class="auth-story-copy">Connect with our care team and make your next step toward better health a little simpler.</p>
+                <div class="auth-story-rule" aria-hidden="true"></div>
+                <p class="auth-story-note">Compassionate people. Thoughtful care. Here whenever you need us.</p>
+            </div>
+            <p class="auth-story-foot">CarePlus Hospital · Serving patients with care</p>
+        </aside>
+
+        <main class="auth-main">
+            <div class="auth-topline">{% block top_link %}{% endblock %}</div>
+            <section class="auth-content">
+                <p class="auth-eyebrow">CarePlus patient portal</p>
+                <h2>{% block heading %}{% endblock %}</h2>
+                <p class="auth-subtitle">{% block subtitle %}{% endblock %}</p>
+                {% block auth_form %}{% endblock %}
+                {% block switch_link %}{% endblock %}
+            </section>
+            <div class="auth-bottomline">Private and secure access to your CarePlus account</div>
+        </main>
+    </div>
+</body>
+</html>

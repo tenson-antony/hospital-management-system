@@ -1,0 +1,164 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Doctors{% endblock %}
+
+{% block extra_css %}
+    .page-heading {
+        margin-bottom: 8px;
+        font-size: 32px;
+        color: #0f4c81;
+    }
+
+    .page-subtitle {
+        margin-bottom: 28px;
+        color: #5b6b7c;
+    }
+
+    .doctor-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 24px;
+    }
+
+    .doctor-card {
+        background: #fff;
+        border: 1px solid #d7e3f0;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(15, 76, 129, 0.08);
+        display: flex;
+        flex-direction: column;
+        transition: 0.2s ease;
+    }
+
+    .doctor-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 14px 28px rgba(15, 76, 129, 0.16);
+    }
+
+    .doctor-photo {
+        width: 100%;
+        height: 240px;
+        object-fit: cover;
+        background: #dce8f5;
+        display: block;
+    }
+
+    .doctor-photo-fallback {
+        width: 100%;
+        height: 240px;
+        background: linear-gradient(160deg, #0f4c81, #3b82a8);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 48px;
+        font-weight: bold;
+        letter-spacing: 2px;
+    }
+
+    .doctor-body {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .doctor-name {
+        font-size: 22px;
+        color: #123a5e;
+    }
+
+    .doctor-specialty {
+        color: #0f4c81;
+        font-weight: 600;
+    }
+
+    .doctor-dept {
+        display: inline-block;
+        margin-top: 6px;
+        background: #e8f1fa;
+        color: #0f4c81;
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-size: 13px;
+        width: fit-content;
+    }
+
+    .empty-state {
+        background: #fff;
+        border: 1px dashed #b7c9db;
+        border-radius: 12px;
+        padding: 40px;
+        text-align: center;
+        color: #5b6b7c;
+    }
+{% endblock %}
+
+{% block content %}
+
+    <h1 class="page-heading">Our doctors</h1>
+
+    <p class="page-subtitle">
+        {{ doctors|length }} doctor{{ doctors|length|pluralize }} available
+    </p>
+
+    {% if doctors %}
+
+        <div class="doctor-grid">
+
+            {% for d in doctors %}
+
+                <article class="doctor-card">
+
+                    {% if d.doctor_image %}
+
+                        <img
+                            class="doctor-photo"
+                            src="{{ d.doctor_image.url }}"
+                            alt="{{ d.doctor_name }}"
+                        >
+
+                    {% else %}
+
+                        <div class="doctor-photo-fallback">
+                            {{ d.doctor_name|slice:":1"|upper }}
+                        </div>
+
+                    {% endif %}
+
+                    <div class="doctor-body">
+
+                        <h2 class="doctor-name">
+                            {{ d.doctor_name }}
+                        </h2>
+
+                        <p class="doctor-specialty">
+                            {{ d.specilized }}
+                        </p>
+
+                        <span class="doctor-dept">
+                            {{ d.department_name }}
+                        </span>
+
+                    </div>
+
+                </article>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="empty-state">
+
+            <p>No doctors have been added yet.</p>
+
+        </div>
+
+    {% endif %}
+
+{% endblock %}
+

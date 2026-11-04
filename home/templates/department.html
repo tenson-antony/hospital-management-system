@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}Departments{% endblock %}
+
+{% block extra_css %}
+    .page-heading {
+        margin-bottom: 8px;
+        font-size: 32px;
+        color: #0f4c81;
+    }
+
+    .page-subtitle {
+        margin-bottom: 28px;
+        color: #5b6b7c;
+    }
+
+    .dept-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+    }
+
+    .dept-card {
+        background: #fff;
+        border: 1px solid #d7e3f0;
+        border-radius: 12px;
+        padding: 22px;
+        box-shadow: 0 8px 20px rgba(15, 76, 129, 0.08);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        min-height: 180px;
+    }
+
+    .dept-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 24px rgba(15, 76, 129, 0.14);
+        transition: 0.2s ease;
+    }
+
+    .dept-number {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: #0f4c81;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .dept-name {
+        font-size: 20px;
+        color: #123a5e;
+    }
+
+    .dept-description {
+        color: #4d5d6d;
+        line-height: 1.5;
+    }
+
+    .empty-state {
+        background: #fff;
+        border: 1px dashed #b7c9db;
+        border-radius: 12px;
+        padding: 40px;
+        text-align: center;
+        color: #5b6b7c;
+    }
+{% endblock %}
+
+{% block content %}
+    <h1 class="page-heading">Hospital departments</h1>
+    <p class="page-subtitle">{{ departments|length }} department{{ departments|length|pluralize }} available</p>
+
+    {% if departments %}
+        <div class="dept-grid">
+            {% for i in departments %}
+                <article class="dept-card">
+                    <span class="dept-number">{{ forloop.counter }}</span>
+                    <h2 class="dept-name">{{ i.department_name }}</h2>
+                    <p class="dept-description">
+                        {% if i.dpt_discription %}
+                            {{ i.dpt_discription }}
+                        {% else %}
+                            Description coming soon.
+                        {% endif %}
+                    </p>
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <p>No departments have been added yet.</p>
+        </div>
+    {% endif %}
+{% endblock %}
