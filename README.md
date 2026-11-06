@@ -1,5 +1,7 @@
 # Hospital Management System
 
+HMS — hospital management system.
+
 A Django-based hospital management application for managing doctors, departments, appointments, and a smart doctor recommendation feature.
 
 ## Project Overview
@@ -163,4 +165,3 @@ Use the superuser credentials created earlier to log in.
 ## License
 
 This project is for educational/demo purposes.
- 
